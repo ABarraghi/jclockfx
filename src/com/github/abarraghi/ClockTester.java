@@ -2,12 +2,14 @@ package com.github.abarraghi;
 
 import java.util.*;
 import java.io.*;
-import java.lang.reflect.Array;
+import java.time.*;
 
 public class ClockTester {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
+		int lineCount = 0;
 		
 		String[] testInput = {
 				"addis ababa", 
@@ -17,11 +19,18 @@ public class ClockTester {
 				"X"
 		};
 		
-		String[] availableIds = TimeZone.getAvailableIDs();
+		Set<String> availableIds = ZoneId.getAvailableZoneIds();
 		
-		for(int i=0;i<availableIds.length;i++) {
-			System.out.println(availableIds[i]);
-		}
+		availableIds.forEach(timeZoneId -> {
+			final String[] splitTimeZone = timeZoneId.split("/");
+			for(int i=0;i<splitTimeZone.length;i++) {
+				System.out.print(splitTimeZone[i] + " ");
+			}
+			System.out.println();
+		});
+		
+//		Idea of format to follow for processing of clock times
+//		System.out.println(LocalDateTime.now(ZoneId.of("GMT")));
 		
 
 	}
