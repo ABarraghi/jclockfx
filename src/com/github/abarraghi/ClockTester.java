@@ -21,16 +21,29 @@ public class ClockTester {
 		
 		Set<String> availableIds = ZoneId.getAvailableZoneIds();
 		
-		availableIds.forEach(timeZoneId -> {
-			final String[] splitTimeZone = timeZoneId.split("/");
-			for(int i=0;i<splitTimeZone.length;i++) {
-				System.out.print(splitTimeZone[i] + " ");
-			}
-			System.out.println();
-		});
+		RegionInterpreter tester = new RegionInterpreter("Asia","Manila");
+		System.out.println(tester.toString());
+		System.out.println(tester.getTime());
+		System.out.println(LocalDateTime.now(ZoneId.of("Asia/Manila")));
+		
+		System.out.println("");
+		
+		ShortIDInterpreter shortTester = new ShortIDInterpreter("Etc","UCT");
+		System.out.println(shortTester.toString());
+		System.out.println(shortTester.getTime());
+		System.out.println(LocalDateTime.now(ZoneId.of("Etc/UCT")));
+		
+		
+//		availableIds.forEach(timeZoneId -> {
+//			final String[] splitTimeZone = timeZoneId.split("/");
+//			for(int i=0;i<splitTimeZone.length;i++) {
+//				System.out.print(splitTimeZone[i] + " ");
+//			}
+//			System.out.println();
+//		});
 		
 //		Idea of format to follow for processing of clock times
-//		System.out.println(LocalDateTime.now(ZoneId.of("GMT")));
+//		System.out.println(LocalDateTime.now(ZoneId.of("Africa/Abidjan")));
 		
 
 	}
