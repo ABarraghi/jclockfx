@@ -21,6 +21,42 @@ public class ClockTester {
 		
 		Set<String> availableIds = ZoneId.getAvailableZoneIds();
 		
+		String currString = " ";
+		int i = 0;
+		while(!currString.equals("X")) {
+			currString = testInput[i];
+			String[] timeParams = currString.split("/"); 
+			
+			switch(timeParams.length) {
+			
+				case 1:
+					if() {
+						
+					}
+					else {
+						
+					}
+					break;
+				
+				case 2:
+					if() {
+						
+					}
+					else {
+						
+					}
+					break;
+					
+				case 3:
+					
+					break;
+				
+				default :
+					
+					break;
+			}
+		}
+		
 		RegionInterpreter tester = new RegionInterpreter("Asia","Manila");
 		System.out.println(tester.toString());
 		System.out.println(tester.getTime());
