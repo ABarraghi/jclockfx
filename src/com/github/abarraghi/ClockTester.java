@@ -69,13 +69,20 @@ public class ClockTester {
 					
 					if(TimeZoneCollection.getRegionCityPairings().containsKey(timeParams[0])) {
 						
-						System.out.println(TimeZoneCollection.getRegionCityPairings().get(timeParams[0]));
+//						System.out.println(TimeZoneCollection.getRegionCityPairings().get(timeParams[0]));
 						
-							if(TimeZoneCollection.getRegionCityPairings().get(timeParams[0]).equals(timeParams[1])) {
+							if(TimeZoneCollection.getRegionCityPairings().get(timeParams[0]).contains(timeParams[1])) {
 								
 								regionTime = new RegionInterpreter(timeParams[0],timeParams[1]);
 								System.out.println(regionTime.toString());
 								System.out.println(regionTime.getTime());
+								System.out.println("");
+								
+							}
+							
+							else {
+								
+								System.out.println("Entered city does not exist for this region!");
 								System.out.println("");
 								
 							}
@@ -84,11 +91,18 @@ public class ClockTester {
 					
 					else if(TimeZoneCollection.getSystemShortPairings().containsKey(timeParams[0])) {
 							
-							if(TimeZoneCollection.getSystemShortPairings().get(timeParams[0]).equals(timeParams[1])) {
+							if(TimeZoneCollection.getSystemShortPairings().get(timeParams[0]).contains(timeParams[1])) {
 								
 								shortIDTime = new ShortIDInterpreter(timeParams[0],timeParams[1]);
 								System.out.println(shortIDTime.toString());
 								System.out.println(shortIDTime.getTime());
+								System.out.println("");
+								
+							}
+							
+							else {
+								
+								System.out.println("Entered short id does not exist for this system!");
 								System.out.println("");
 								
 							}
