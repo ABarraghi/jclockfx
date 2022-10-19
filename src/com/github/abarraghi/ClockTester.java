@@ -12,76 +12,110 @@ public class ClockTester {
 		int lineCount = 0;
 		
 		String[] testInput = {
-				"addis ababa", 
-				"windhoek",
-				"COMODRIVADAVIA",
-				"JujuY",
+				"Asia/Manila", 
+				"Etc/UCT", //Needs to be added to the systemShortID map 
+				"Asia/Lordistan",
+				"Etc/LLT",
+				"Cuba",
+				"Pacific/Port_Moresby",
+				"SystemV/MST7MDT",
+				"SystemIV/MST7MDT",
+				"Porygon2",
 				"X"
 		};
 		
 		Set<String> availableIds = ZoneId.getAvailableZoneIds();
+		RegionInterpreter regionTime;
+		ShortIDInterpreter shortIDTime;
 		
 		String currString = " ";
 		int i = 0;
 		while(!currString.equals("X")) {
 			currString = testInput[i];
 			String[] timeParams = currString.split("/"); 
+			System.out.println("JClockCLI Test 1 - Iteration: " + i + ", input string: " + currString);
 			
 			switch(timeParams.length) {
 			
 				case 1:
-					if() {
+					if(TimeZoneCollection.getAvailableRegions().contains(timeParams[0])) {
+						
+						regionTime = new RegionInterpreter(timeParams[0]);
+						System.out.println(regionTime.toString());
+						System.out.println(regionTime.getTime());
+						System.out.println("");
 						
 					}
+					
+					else if(TimeZoneCollection.getAvailableShortIDs().contains(timeParams[0])) {
+						
+						shortIDTime = new ShortIDInterpreter(timeParams[0]);
+						System.out.print(shortIDTime.toString());
+						System.out.print(shortIDTime.getTime());
+						System.out.println("");
+						
+						
+					}
+					
 					else {
 						
+						System.out.println("Entered field does not exist!");
+						System.out.println("");
 					}
+					
 					break;
 				
 				case 2:
-					if() {
+					
+					if(TimeZoneCollection.getRegionCityPairings().containsKey(timeParams[0])) {
+						
+						System.out.println(TimeZoneCollection.getRegionCityPairings().get(timeParams[0]));
+						
+							if(TimeZoneCollection.getRegionCityPairings().get(timeParams[0]).equals(timeParams[1])) {
+								
+								regionTime = new RegionInterpreter(timeParams[0],timeParams[1]);
+								System.out.println(regionTime.toString());
+								System.out.println(regionTime.getTime());
+								System.out.println("");
+								
+							}
 						
 					}
+					
+					else if(TimeZoneCollection.getSystemShortPairings().containsKey(timeParams[0])) {
+							
+							if(TimeZoneCollection.getSystemShortPairings().get(timeParams[0]).equals(timeParams[1])) {
+								
+								shortIDTime = new ShortIDInterpreter(timeParams[0],timeParams[1]);
+								System.out.println(shortIDTime.toString());
+								System.out.println(shortIDTime.getTime());
+								System.out.println("");
+								
+							}
+						
+					}
+					
 					else {
 						
+						System.out.println("Entered field does not exist!");
+						System.out.println("");
 					}
 					break;
 					
 				case 3:
 					
+					//TODO Implement logic for regionName/subRegionName/cityName pairing map
+					
 					break;
 				
 				default :
 					
+					//TODO Implement exception handling
+					
 					break;
 			}
+			
+			i++;
 		}
-		
-		RegionInterpreter tester = new RegionInterpreter("Asia","Manila");
-		System.out.println(tester.toString());
-		System.out.println(tester.getTime());
-		System.out.println(LocalDateTime.now(ZoneId.of("Asia/Manila")));
-		
-		System.out.println("");
-		
-		ShortIDInterpreter shortTester = new ShortIDInterpreter("Etc","UCT");
-		System.out.println(shortTester.toString());
-		System.out.println(shortTester.getTime());
-		System.out.println(LocalDateTime.now(ZoneId.of("Etc/UCT")));
-		
-		
-//		availableIds.forEach(timeZoneId -> {
-//			final String[] splitTimeZone = timeZoneId.split("/");
-//			for(int i=0;i<splitTimeZone.length;i++) {
-//				System.out.print(splitTimeZone[i] + " ");
-//			}
-//			System.out.println();
-//		});
-		
-//		Idea of format to follow for processing of clock times
-//		System.out.println(LocalDateTime.now(ZoneId.of("Africa/Abidjan")));
-		
-
 	}
-
 }
