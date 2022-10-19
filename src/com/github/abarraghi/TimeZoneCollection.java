@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 import java.time.*;
 
-public abstract class TimeZoneIdentifier {
+public abstract class TimeZoneCollection {
 	
 	HashSet<String> shortIDSet = new HashSet<String>();
 	HashSet<String> regionSet = new HashSet<String>();
