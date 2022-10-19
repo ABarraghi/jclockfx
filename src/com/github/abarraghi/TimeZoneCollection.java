@@ -6,13 +6,15 @@ import java.time.*;
 
 public abstract class TimeZoneCollection {
 	
-	HashSet<String> shortIDSet = new HashSet<String>();
-	HashSet<String> regionSet = new HashSet<String>();
-	HashMap<String, String> regionCityMap = new HashMap<String, String>();
-	HashMap<String, String> systemShortMap = new HashMap<String, String>();
-	HashMap<String, Integer> shortGmtMap = new HashMap<String, Integer>();
+	private static HashSet<String> shortIDSet = new HashSet<String>();
+	private static HashSet<String> regionSet = new HashSet<String>();
+	private static HashMap<String, String> regionCityMap = new HashMap<String, String>();
+	private static HashMap<String, String> systemShortMap = new HashMap<String, String>();
+	private static HashMap<String, Integer> shortGmtMap = new HashMap<String, Integer>();
+//	TODO Implement logic for regionName/subRegionName/cityName pairing map
+//	HashMap<String, <String, String> > regionSubregionCityMap = new HashMap<String, <String, String> >;
 	
-	public HashSet<String> getAvailableShortIDs(){
+	public static HashSet<String> getAvailableShortIDs(){
 		shortIDSet.add("CET");
 		shortIDSet.add("CST6CDT");
 		shortIDSet.add("EET");
@@ -58,7 +60,7 @@ public abstract class TimeZoneCollection {
 		return shortIDSet;
 	}
 	
-	public HashSet<String> getAvailableRegions(){
+	public static HashSet<String> getAvailableRegions(){
 		regionSet.add("Cuba");
 		regionSet.add("Egypt");
 		regionSet.add("Eire");
@@ -89,7 +91,7 @@ public abstract class TimeZoneCollection {
 		return regionSet;
 	}
 	
-	public HashMap<String, String> getRegionCityPairings(){
+	public static HashMap<String, String> getRegionCityPairings(){
 		regionCityMap.put("Africa","Abidjan");
 		regionCityMap.put("Africa","Accra");
 		regionCityMap.put("Africa","Addis_Ababa");
@@ -576,7 +578,7 @@ public abstract class TimeZoneCollection {
 		return regionCityMap;
 	}
 	
-	public HashMap<String, String> getSystemShortPairings(){
+	public static HashMap<String, String> getSystemShortPairings(){
 		systemShortMap.put("SystemV","AST4");
 		systemShortMap.put("SystemV","AST4ADT");
 		systemShortMap.put("SystemV","CST6");
@@ -594,7 +596,7 @@ public abstract class TimeZoneCollection {
 		return systemShortMap;
 	}
 	
-	public HashMap<String, Integer> getShortGmtPairings(){
+	public static HashMap<String, Integer> getShortGmtPairings(){
 		
 		//Method still in progress - need to figure out a way to extract only the int gmt offset
 		//from the whole gmt string
