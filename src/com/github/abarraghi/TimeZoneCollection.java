@@ -592,6 +592,14 @@ public abstract class TimeZoneCollection {
 		systemShortInsertion("SystemV","PST8PDT");
 		systemShortInsertion("SystemV","YST9");
 		systemShortInsertion("SystemV","YST9YDT");
+		systemShortInsertion("Etc","GMT");
+		systemShortInsertion("Etc","GMT0");
+		systemShortInsertion("Etc","Greenwich");
+		systemShortInsertion("Etc","UCT");
+		systemShortInsertion("Etc","UTC");
+		systemShortInsertion("Etc","Universal");
+		systemShortInsertion("Etc","Zulu");
+
 
 		return systemShortMap;
 	}
