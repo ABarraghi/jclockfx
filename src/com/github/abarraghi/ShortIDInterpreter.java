@@ -5,7 +5,7 @@ import java.time.ZoneId;
 
 //Responsible for the setting and getting of TimeZones based on the shortID field
 
-public class ShortIDInterpreter {
+public class ShortIDInterpreter extends GeneralInterpreter {
 	
 	String shortID = "", systemName = "";
 	int gmtOffset = 0;
@@ -28,9 +28,9 @@ public class ShortIDInterpreter {
 	
 	//Assuming we don't use default constructor
 	public String getTime() {
-		if(systemName.equals("")&&gmtOffset==0) return LocalDateTime.now(ZoneId.of(shortID)).toString();
-		else if(gmtOffset==0) return LocalDateTime.now(ZoneId.of(systemName + "/" + shortID)).toString();
-		return LocalDateTime.now(ZoneId.of(shortID + "/" + gmtOffset)).toString();
+		if(systemName.equals("")&&gmtOffset==0) return super.formatTime(shortID);
+		else if(gmtOffset==0) return super.formatTime(systemName + "/" + shortID);
+		return super.formatTime(shortID + "/" + gmtOffset);
 	}
 		
 	//Assuming we don't use default constructor

@@ -4,7 +4,7 @@ import java.time.*;
 
 //Responsible for the setting and getting of TimeZones based on the regionName field
 
-public class RegionInterpreter {
+public class RegionInterpreter extends GeneralInterpreter {
 	
 	String regionName = "", subregionName = "", cityName = "";
 	
@@ -27,9 +27,9 @@ public class RegionInterpreter {
 	
 	//Assuming we don't use default constructor
 	public String getTime() {
-		if(cityName.equals("")) return LocalDateTime.now(ZoneId.of(regionName)).toString();
-		else if(subregionName.equals("")) return LocalDateTime.now(ZoneId.of(regionName + "/" + cityName)).toString();
-		return LocalDateTime.now(ZoneId.of(regionName + "/" + subregionName + "/" + cityName)).toString();
+		if(cityName.equals("")) return  super.formatTime(regionName);
+		else if(subregionName.equals("")) return super.formatTime(regionName + "/" + cityName);
+		return super.formatTime(regionName + "/" + subregionName + "/" + cityName);
 	}
 	
 	//Assuming we don't use default constructor
