@@ -606,8 +606,35 @@ public abstract class TimeZoneCollection {
 	
 	public static HashMap<String, LinkedList<Integer>> getShortGmtPairings(){
 		
-		//Method still in progress - need to figure out a way to extract only the int gmt offset
-		//from the whole gmt string
+		shortGmtInsertion("Etc","GMT+0");
+		shortGmtInsertion("Etc","GMT+1");
+		shortGmtInsertion("Etc","GMT+10");
+		shortGmtInsertion("Etc","GMT+11");
+		shortGmtInsertion("Etc","GMT+12");
+		shortGmtInsertion("Etc","GMT+2");
+		shortGmtInsertion("Etc","GMT+3");
+		shortGmtInsertion("Etc","GMT+4");
+		shortGmtInsertion("Etc","GMT+5");
+		shortGmtInsertion("Etc","GMT+6");
+		shortGmtInsertion("Etc","GMT+7");
+		shortGmtInsertion("Etc","GMT+8");
+		shortGmtInsertion("Etc","GMT+9");
+		shortGmtInsertion("Etc","GMT-0");
+		shortGmtInsertion("Etc","GMT-1");
+		shortGmtInsertion("Etc","GMT-10");
+		shortGmtInsertion("Etc","GMT-11");
+		shortGmtInsertion("Etc","GMT-12");
+		shortGmtInsertion("Etc","GMT-13");
+		shortGmtInsertion("Etc","GMT-14");
+		shortGmtInsertion("Etc","GMT-2");
+		shortGmtInsertion("Etc","GMT-3");
+		shortGmtInsertion("Etc","GMT-4");
+		shortGmtInsertion("Etc","GMT-5");
+		shortGmtInsertion("Etc","GMT-6");
+		shortGmtInsertion("Etc","GMT-7");
+		shortGmtInsertion("Etc","GMT-8");
+		shortGmtInsertion("Etc","GMT-9");
+
 		
 		return shortGmtMap;
 	}
@@ -642,6 +669,21 @@ public abstract class TimeZoneCollection {
 		
 	}
 	
+	private static void shortGmtInsertion(String shortID, String stringOffset) {
+		
+		LinkedList<Integer> shortOffsets;
+		
+		if(shortGmtMap.containsKey(shortID)) {
+			shortGmtMap.get(shortID).add(offsetOf(shortID));
+		}
+		else {
+			shortOffsets = new LinkedList<Integer>();
+			shortOffsets.add(offsetOf(shortID));
+			shortGmtMap.put(shortID, shortOffsets);
+		}
+		
+	}
+	
 	//assumes region exists
 	public static LinkedList<String> getRegionalCities(String region) { 
 		
@@ -654,6 +696,25 @@ public abstract class TimeZoneCollection {
 		
 		return systemShortMap.get(systemName);
 		
+	}
+	
+	//assumes shortID exists
+	public static LinkedList<Integer> getShortGmt(String shortID){
+		
+		return shortGmtMap.get(shortID);
+		
+	}
+	
+	public static int offsetOf(String stringOffset) {
+		
+		int offset = 0;
+		String offsetStr = stringOffset.split("GMT")[1];
+		
+		if(offsetStr.contains("-")) offset = -1 * Integer.parseInt(offsetStr.substring(1));
+		
+		else if(offsetStr.contains("+")) offset = Integer.parseInt(offsetStr.substring(1));
+		
+		return offset;
 	}
 	
 	
