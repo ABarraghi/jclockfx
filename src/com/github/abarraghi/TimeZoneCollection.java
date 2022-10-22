@@ -11,8 +11,7 @@ public abstract class TimeZoneCollection {
 	private static HashMap<String, LinkedList<String>> regionCityMap = new HashMap<String, LinkedList<String>>();
 	private static HashMap<String, LinkedList<String>> systemShortMap = new HashMap<String, LinkedList<String>>();
 	private static HashMap<String, LinkedList<Integer>> shortGmtMap = new HashMap<String, LinkedList<Integer>>();
-//	TODO Implement logic for regionName/subRegionName/cityName pairing map
-//	HashMap<String, <String, String> > regionSubregionCityMap = new HashMap<String, <String, String> >;
+	private static HashMap<String, HashMap<String,LinkedList<String>>> regionSubCityMap = new HashMap<String, HashMap<String,LinkedList<String>>>();
 	
 	public static HashSet<String> getAvailableShortIDs(){
 		shortIDSet.add("CET");
@@ -639,6 +638,39 @@ public abstract class TimeZoneCollection {
 		return shortGmtMap;
 	}
 	
+	private static HashMap<String, HashMap<String, LinkedList<String>>> getRegionSubCityPairings(){
+		
+		regionSubCityInsertion("America","Argentina","Buenos_Aires");
+		regionSubCityInsertion("America","Argentina","Catamarca");
+		regionSubCityInsertion("America","Argentina","ComodRivadavia");
+		regionSubCityInsertion("America","Argentina","Cordoba");
+		regionSubCityInsertion("America","Argentina","Jujuy");
+		regionSubCityInsertion("America","Argentina","La_Rioja");
+		regionSubCityInsertion("America","Argentina","Mendoza");
+		regionSubCityInsertion("America","Argentina","Rio_Gallegos");
+		regionSubCityInsertion("America","Argentina","Salta");
+		regionSubCityInsertion("America","Argentina","San_Juan");
+		regionSubCityInsertion("America","Argentina","San_Luis");
+		regionSubCityInsertion("America","Argentina","Tucuman");
+		regionSubCityInsertion("America","Argentina","Ushuaia");
+		regionSubCityInsertion("America","Indiana","Indianapolis");
+		regionSubCityInsertion("America","Indiana","Knox");
+		regionSubCityInsertion("America","Indiana","Marengo");
+		regionSubCityInsertion("America","Indiana","Petersburg");
+		regionSubCityInsertion("America","Indiana","Tell_City");
+		regionSubCityInsertion("America","Indiana","Vevay");
+		regionSubCityInsertion("America","Indiana","Vincennes");
+		regionSubCityInsertion("America","Indiana","Winamac");
+		regionSubCityInsertion("America","Kentucky","Louisville");
+		regionSubCityInsertion("America","Kentucky","Monticello");
+		regionSubCityInsertion("America","North_Dakota","Beulah");
+		regionSubCityInsertion("America","North_Dakota","Center");
+		regionSubCityInsertion("America","North_Dakota","New_Salem");
+		
+		return regionSubCityMap;
+		
+	}
+	
 	private static void regionalCityInsertion(String region, String city) {
 		
 		LinkedList<String> regionalCities;
@@ -680,6 +712,36 @@ public abstract class TimeZoneCollection {
 			shortOffsets = new LinkedList<Integer>();
 			shortOffsets.add(offsetOf(shortID));
 			shortGmtMap.put(shortID, shortOffsets);
+		}
+		
+	}
+	
+	private static void regionSubCityInsertion(String region, String subRegion, String city) {
+		
+		HashMap<String, LinkedList<String>> subCityMap;
+		LinkedList<String> subCities;
+		
+		
+		if(regionSubCityMap.containsKey(region)) {
+			
+			if(regionSubCityMap.get(region).containsKey(subRegion)) {
+				regionSubCityMap.get(region).get(subRegion).add(city);
+			}
+			else { 
+				subCities = new LinkedList<String>();
+				subCities.add(city);
+				regionSubCityMap.get(region).put(subRegion, subCities);
+			}
+			
+		}
+		else {
+			
+			subCities = new LinkedList<String>();
+			subCityMap = new HashMap<String, LinkedList<String>>();
+			subCities.add(city);
+			subCityMap.put(subRegion, subCities);
+			regionSubCityMap.put(region, subCityMap);
+			
 		}
 		
 	}
