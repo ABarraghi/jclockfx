@@ -638,7 +638,7 @@ public abstract class TimeZoneCollection {
 		return shortGmtMap;
 	}
 	
-	private static HashMap<String, HashMap<String, LinkedList<String>>> getRegionSubCityPairings(){
+	public static HashMap<String, HashMap<String, LinkedList<String>>> getRegionSubCityPairings(){
 		
 		regionSubCityInsertion("America","Argentina","Buenos_Aires");
 		regionSubCityInsertion("America","Argentina","Catamarca");
@@ -764,6 +764,19 @@ public abstract class TimeZoneCollection {
 	public static LinkedList<Integer> getShortGmt(String shortID){
 		
 		return shortGmtMap.get(shortID);
+		
+	}
+	
+	//assumes region exists 
+	public static HashMap<String, LinkedList<String>> getregionSubCityMap(String region){
+		
+		return regionSubCityMap.get(region);
+	}
+	
+	//assumes subregion exists
+	public static LinkedList<String> getSubCity(String region, String subRegion){
+		
+		return regionSubCityMap.get(region).get(subRegion);
 		
 	}
 	

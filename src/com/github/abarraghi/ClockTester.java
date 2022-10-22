@@ -21,6 +21,8 @@ public class ClockTester {
 				"SystemV/MST7MDT",
 				"SystemIV/MST7MDT",
 				"Porygon2",
+				"America/North_Dakota/Beulah",
+				"SolarSystem/Earth/Australia",
 				"X"
 		};
 		
@@ -118,7 +120,43 @@ public class ClockTester {
 					
 				case 3:
 					
-					//TODO Implement logic for regionName/subRegionName/cityName pairing map
+					if(TimeZoneCollection.getRegionSubCityPairings().containsKey(timeParams[0])) {
+						
+						if(TimeZoneCollection.getRegionSubCityPairings().get(timeParams[0]).containsKey(timeParams[1])) {
+							
+							if(TimeZoneCollection.getRegionSubCityPairings().get(timeParams[0]).get(timeParams[1]).contains(timeParams[2])) {
+								
+								regionTime = new RegionInterpreter(timeParams[0],timeParams[1],timeParams[2]);
+								System.out.println(regionTime.toString());
+								System.out.println(regionTime.getTime());
+								System.out.println("");
+								
+							}
+							
+							else {
+								
+								System.out.println("Entered city does not exist!");
+								System.out.println("");
+								
+							}
+							
+						}
+						
+						else {
+							
+							System.out.println("Entered sub region does not exist!");
+							System.out.println("");
+							
+						}
+						
+					}
+					
+					else {
+						
+						System.out.println("Entered region does not exist!");
+						System.out.println("");
+						
+					}
 					
 					break;
 				
