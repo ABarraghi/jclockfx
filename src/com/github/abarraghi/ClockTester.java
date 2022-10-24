@@ -170,6 +170,5 @@ public class ClockTester {
 			i++;
 		}
 		
-		System.out.println(TimeZoneCollection.offsetOf("GMT+12"));
 	}
 }

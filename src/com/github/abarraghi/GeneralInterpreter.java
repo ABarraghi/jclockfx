@@ -3,11 +3,12 @@ package com.github.abarraghi;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public abstract class GeneralInterpreter {
 	
-	protected final SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
+	protected final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss");
 	
 	public String getTime() {
 		
@@ -28,11 +29,7 @@ public abstract class GeneralInterpreter {
 		
 		LocalDateTime date = LocalDateTime.now(zoneId);
 		
-		Date dateOut = Date.from(date.atZone(zoneId).toInstant()); 
-		
-		return TIME_FORMATTER.format(dateOut);
-		
-		
+		return date.format(TIME_FORMATTER);
 		
 	}
 
