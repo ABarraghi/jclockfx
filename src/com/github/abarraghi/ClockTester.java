@@ -34,6 +34,8 @@ public class ClockTester {
 			currString = testInput[i];
 			System.out.println("JClockCLI Test 1 - Iteration: " + i + ", input string: " + currString);
 			matchTimeOnId(currString);
+			String field = currString.split("/")[currString.split("/").length - 1];
+			matchTimeOnField(field);
 			
 			i++;
 		}
@@ -184,53 +186,78 @@ public class ClockTester {
 		
 	}
 	
-	public static boolean matchTimeOnField(String field) {
+	public static void matchTimeOnField(String field) {
 		
-		boolean timeMatched;
+		ShortIDInterpreter shortIDTime;
+		RegionInterpreter regionTime;
 		
 		//TODO insert logic for set-field comparisons 
 		
 		
 		 if (TimeZoneCollection.getAvailableRegions().contains(field)) {
 			 
-			 return true;
+			 regionTime = new RegionInterpreter(field);
+			 System.out.println(regionTime.toString());
+			 System.out.println(regionTime.getTime());
+			 System.out.println("");
 			 
 		 }
 		 else if(TimeZoneCollection.getAvailableShortIDs().contains(field)) {
 			 
+			 shortIDTime = new ShortIDInterpreter(field);
+			 System.out.println(shortIDTime.toString());
+			 System.out.println(shortIDTime.getTime());
+			 System.out.println("");
 			 
-			 return true;
 		 }
 		 else {
 			 
-			 TimeZoneCollection.getRegionCityPairings().forEach((regions,cities) -> {
+			 TimeZoneCollection.getRegionCityPairings().forEach((region,cities) -> {
+				 
 				 if(cities.contains(field)) {
 					 
-					 //TODO insert logic for map-field comparisons 
+					 final RegionInterpreter REGIONAL_CITY_TIME = new RegionInterpreter(region,field);
+					 System.out.println(REGIONAL_CITY_TIME.toString());
+					 System.out.println(REGIONAL_CITY_TIME.getTime());
+					 System.out.println("");
+			
 				 }
 			 });
 			 
-			 TimeZoneCollection.getSystemShortPairings().forEach((systemNames,shortIds) -> {
+			 TimeZoneCollection.getSystemShortPairings().forEach((systemName,shortIds) -> {
 				 if(shortIds.contains(field)) {
 					 
+					 final ShortIDInterpreter SYSTEM_SHORTID_TIME = new ShortIDInterpreter(systemName,field);
+					 System.out.println(SYSTEM_SHORTID_TIME.toString());
+					 System.out.println(SYSTEM_SHORTID_TIME.getTime());
+					 System.out.println("");
 					
 				 }
 			 });
 			 
-			 TimeZoneCollection.getShortGmtPairings().forEach((shortIds,gmtOffsets) -> {
+			 TimeZoneCollection.getShortGmtPairings().forEach((shortId,gmtOffsets) -> {
 				 
 				 if(gmtOffsets.contains(TimeZoneCollection.offsetOf(field))) {
 					 
+					 final ShortIDInterpreter SHORTID_OFFSET_TIME = new ShortIDInterpreter(shortId,TimeZoneCollection.offsetOf(field));
+					 System.out.println(SHORTID_OFFSET_TIME.toString());
+					 System.out.println(SHORTID_OFFSET_TIME.getTime());
+					 System.out.println("");
+					 
 					
 				 }
 			 });
 			 
-			 TimeZoneCollection.getRegionSubCityPairings().forEach((regions,subregions) -> {
+			 TimeZoneCollection.getRegionSubCityPairings().forEach((region,subRegions) -> {
 				 
-				 subregions.forEach((subregionsInner,cities) -> {
+				 subRegions.forEach((subRegion,cities) -> {
 					 if(cities.contains(field)) {
-						 
 						
+						 final RegionInterpreter REGIONAL_SUBREGION_CITY_TIME = new RegionInterpreter(region,subRegion,field);
+						 System.out.println(REGIONAL_SUBREGION_CITY_TIME.toString());
+						 System.out.println(REGIONAL_SUBREGION_CITY_TIME.getTime());
+						 System.out.println("");
+						 
 					 }
 				 });
 			 });
