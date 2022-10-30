@@ -186,84 +186,128 @@ public class ClockTester {
 		
 	}
 	
-	public static void matchTimeOnField(String field) {
+	public static boolean matchTimeOnField(String field) {
 		
 		ShortIDInterpreter shortIDTime;
 		RegionInterpreter regionTime;
+		Map.Entry<String, LinkedList<String>> filteredStringEntry;
+		Map.Entry<String, LinkedList<Integer>> filteredIntegerEntry;
+		Map.Entry<String, HashMap<String,LinkedList<String>>> filteredTripleStringEntry;
+		
+		String region, subRegion, city, shortId, systemName;
+		int gmtOffset = TimeZoneCollection.offsetOf(field);
+		
 		
 		//TODO insert logic for set-field comparisons 
 		
 		
 		 if (TimeZoneCollection.getAvailableRegions().contains(field)) {
 			 
-			 regionTime = new RegionInterpreter(field);
+			 region = field;
+			 
+			 regionTime = new RegionInterpreter(region);
 			 System.out.println(regionTime.toString());
 			 System.out.println(regionTime.getTime());
 			 System.out.println("");
 			 
+			 return true;
+			 
 		 }
 		 else if(TimeZoneCollection.getAvailableShortIDs().contains(field)) {
 			 
-			 shortIDTime = new ShortIDInterpreter(field);
+			 shortId = field;
+			 
+			 shortIDTime = new ShortIDInterpreter(shortId);
 			 System.out.println(shortIDTime.toString());
 			 System.out.println(shortIDTime.getTime());
 			 System.out.println("");
 			 
+			 return true;
+			 
 		 }
 		 else {
 			 
-			 TimeZoneCollection.getRegionCityPairings().forEach((region,cities) -> {
-				 
-				 if(cities.contains(field)) {
-					 
-					 final RegionInterpreter REGIONAL_CITY_TIME = new RegionInterpreter(region,field);
-					 System.out.println(REGIONAL_CITY_TIME.toString());
-					 System.out.println(REGIONAL_CITY_TIME.getTime());
-					 System.out.println("");
-			
-				 }
-			 });
+			 filteredStringEntry = TimeZoneCollection.getRegionCityPairings().entrySet().stream()
+				 .filter(regionKey -> regionKey.getValue().contains(field))
+				 .findFirst()
+				 .orElse(null);
 			 
-			 TimeZoneCollection.getSystemShortPairings().forEach((systemName,shortIds) -> {
-				 if(shortIds.contains(field)) {
-					 
-					 final ShortIDInterpreter SYSTEM_SHORTID_TIME = new ShortIDInterpreter(systemName,field);
-					 System.out.println(SYSTEM_SHORTID_TIME.toString());
-					 System.out.println(SYSTEM_SHORTID_TIME.getTime());
-					 System.out.println("");
-					
-				 }
-			 });
-			 
-			 TimeZoneCollection.getShortGmtPairings().forEach((shortId,gmtOffsets) -> {
+			 if(!filteredStringEntry.equals(null)) {
 				 
-				 if(gmtOffsets.contains(TimeZoneCollection.offsetOf(field))) {
-					 
-					 final ShortIDInterpreter SHORTID_OFFSET_TIME = new ShortIDInterpreter(shortId,TimeZoneCollection.offsetOf(field));
-					 System.out.println(SHORTID_OFFSET_TIME.toString());
-					 System.out.println(SHORTID_OFFSET_TIME.getTime());
-					 System.out.println("");
-					 
-					
-				 }
-			 });
-			 
-			 TimeZoneCollection.getRegionSubCityPairings().forEach((region,subRegions) -> {
+				 region = filteredStringEntry.getKey();
+				 city = field;
 				 
-				 subRegions.forEach((subRegion,cities) -> {
-					 if(cities.contains(field)) {
-						
-						 final RegionInterpreter REGIONAL_SUBREGION_CITY_TIME = new RegionInterpreter(region,subRegion,field);
-						 System.out.println(REGIONAL_SUBREGION_CITY_TIME.toString());
-						 System.out.println(REGIONAL_SUBREGION_CITY_TIME.getTime());
-						 System.out.println("");
+				 regionTime = new RegionInterpreter(region, city);
+				 System.out.println(regionTime.toString());
+				 System.out.println(regionTime.getTime());
+				 System.out.println("");
+				 
+				 return true;
+				 
+			 }
+			 
+			 filteredStringEntry = TimeZoneCollection.getSystemShortPairings().entrySet().stream()
+					 .filter(systemNameKey -> systemNameKey.getValue().contains(field))
+					 .findFirst()
+					 .orElse(null);
+					 
+			 if(!filteredStringEntry.equals(null)) {
+				 
+				 systemName = filteredStringEntry.getKey();
+				 shortId = field;
 						 
-					 }
-				 });
-			 });
+				 shortIDTime = new ShortIDInterpreter(systemName, shortId);
+				 System.out.println(shortIDTime.toString());
+				 System.out.println(shortIDTime.getTime());
+				 System.out.println("");
+						 
+				 return true;
+				 
+			 }
+			 
+			 filteredIntegerEntry = TimeZoneCollection.getShortGmtPairings().entrySet().stream()
+					 .filter(shortIdKey -> shortIdKey.getValue().contains(TimeZoneCollection.offsetOf(field)))
+					 .findFirst()
+					 .orElse(null);
+			 
+			 if(!filteredIntegerEntry.equals(null)) {
+				 
+				 shortId = filteredIntegerEntry.getKey();
+				 
+				 shortIDTime = new ShortIDInterpreter(shortId, gmtOffset);
+				 System.out.println(shortIDTime.toString());
+				 System.out.println(shortIDTime.getTime());
+				 System.out.println("");
+						 
+				 return true;
+				 
+			 }
+			 
+			 filteredTripleStringEntry = TimeZoneCollection.getRegionSubCityPairings().entrySet().stream()
+					 .filter(regionKey -> regionKey.getValue().entrySet().stream()
+							 .anyMatch(subRegionKey -> subRegionKey.getValue().contains(field)))
+					 .findFirst()
+					 .orElse(null);
+			 
+			 if(!filteredTripleStringEntry.equals(null)) {
+				 
+				 region = filteredTripleStringEntry.getKey();
+				 subRegion = (String) filteredTripleStringEntry.getValue().entrySet().toArray()[0];
+				 city = field;
+				 
+				 regionTime = new RegionInterpreter(region,subRegion,city);
+				 System.out.println(regionTime.toString());
+				 System.out.println(regionTime.getTime());
+				 System.out.println("");
+				 
+				 return true;
+				
+			 }
 			  
 			 
 		 }
+		 
+		 return false;
 		
 	}
 }

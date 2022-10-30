@@ -783,13 +783,25 @@ public abstract class TimeZoneCollection {
 	public static int offsetOf(String stringOffset) {
 		
 		int offset = 0;
-		String offsetStr = stringOffset.split("GMT")[1];
 		
-		if(offsetStr.contains("-")) offset = -1 * Integer.parseInt(offsetStr.substring(1));
+		try {
+			
+			String offsetStr = stringOffset.split("GMT")[1];
+			
+			if(offsetStr.contains("-")) offset = -1 * Integer.parseInt(offsetStr.substring(1));
+			
+			else if(offsetStr.contains("+")) offset = Integer.parseInt(offsetStr.substring(1));
+			
+		}
 		
-		else if(offsetStr.contains("+")) offset = Integer.parseInt(offsetStr.substring(1));
+		catch(IndexOutOfBoundsException e) {
+			
+			offset = -100;
+			
+		}
 		
 		return offset;
+		
 	}
 	
 	
