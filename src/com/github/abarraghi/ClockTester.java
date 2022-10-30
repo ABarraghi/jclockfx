@@ -232,7 +232,7 @@ public class ClockTester {
 				 .findFirst()
 				 .orElse(null);
 			 
-			 if(!filteredStringEntry.equals(null)) {
+			 if(filteredStringEntry != null) {
 				 
 				 region = filteredStringEntry.getKey();
 				 city = field;
@@ -251,7 +251,7 @@ public class ClockTester {
 					 .findFirst()
 					 .orElse(null);
 					 
-			 if(!filteredStringEntry.equals(null)) {
+			 if(filteredStringEntry != null) {
 				 
 				 systemName = filteredStringEntry.getKey();
 				 shortId = field;
@@ -270,7 +270,7 @@ public class ClockTester {
 					 .findFirst()
 					 .orElse(null);
 			 
-			 if(!filteredIntegerEntry.equals(null)) {
+			 if(filteredIntegerEntry != null && gmtOffset != -100) {
 				 
 				 shortId = filteredIntegerEntry.getKey();
 				 
@@ -289,10 +289,10 @@ public class ClockTester {
 					 .findFirst()
 					 .orElse(null);
 			 
-			 if(!filteredTripleStringEntry.equals(null)) {
+			 if(filteredTripleStringEntry != null) {
 				 
 				 region = filteredTripleStringEntry.getKey();
-				 subRegion = (String) filteredTripleStringEntry.getValue().entrySet().toArray()[0];
+				 subRegion = filteredTripleStringEntry.getValue().toString();
 				 city = field;
 				 
 				 regionTime = new RegionInterpreter(region,subRegion,city);
