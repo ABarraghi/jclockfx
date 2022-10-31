@@ -5,6 +5,14 @@ import java.io.*;
 import java.time.*;
 
 public class ClockTester {
+	
+	static ShortIDInterpreter shortIDTime;
+	static RegionInterpreter regionTime;
+	
+	static enum Mode {
+		DIGITAL,
+		ANALOG
+	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -23,6 +31,7 @@ public class ClockTester {
 				"Porygon2",
 				"America/North_Dakota/Beulah",
 				"SolarSystem/Earth/Australia",
+				"Europe/Vienna",
 				"X"
 		};
 		
@@ -30,10 +39,28 @@ public class ClockTester {
 		
 		String currString = " ";
 		int i = 0;
+		
+		System.out.println("Time Mode set to Digital \n");
+		
 		while(!currString.equals("X")) {
 			currString = testInput[i];
-			System.out.println("JClockCLI Test 1 - Iteration: " + i + ", input string: " + currString);
-			matchTimeOnId(currString);
+			System.out.println("JClockCLI Test 1 - Iteration: " + (i+1) + ", input string: " + currString);
+			matchTimeOnId(currString, Mode.DIGITAL);
+			String field = currString.split("/")[currString.split("/").length - 1];
+			matchTimeOnField(field);
+			
+			i++;
+		}
+		
+		currString = " ";
+		i = 0;
+		
+		System.out.println("Time Mode set to Analog \n");
+		
+		while(!currString.equals("X")) {
+			currString = testInput[i];
+			System.out.println("JClockCLI Test 1 - Iteration: " + i+1 + ", input string: " + currString);
+			matchTimeOnId(currString, Mode.ANALOG);
 			String field = currString.split("/")[currString.split("/").length - 1];
 			matchTimeOnField(field);
 			
@@ -42,11 +69,9 @@ public class ClockTester {
 		
 	}
 	
-	public static boolean matchTimeOnId(String Id) {
+	public static boolean matchTimeOnId(String Id, Mode mode) {
 		
 		String[] timeParams = Id.split("/");
-		RegionInterpreter regionTime;
-		ShortIDInterpreter shortIDTime;
 		
 		switch(timeParams.length) {
 		
@@ -54,6 +79,12 @@ public class ClockTester {
 			if(TimeZoneCollection.getAvailableRegions().contains(timeParams[0])) {
 				
 				regionTime = new RegionInterpreter(timeParams[0]);
+				
+				if(mode == Mode.DIGITAL)
+					regionTime.setMode(GeneralInterpreter.Mode.DIGITAL);
+				else if(mode == Mode.ANALOG)
+					regionTime.setMode(GeneralInterpreter.Mode.ANALOG);
+
 				System.out.println(regionTime.toString());
 				System.out.println(regionTime.getTime());
 				System.out.println("");
@@ -188,8 +219,6 @@ public class ClockTester {
 	
 	public static boolean matchTimeOnField(String field) {
 		
-		ShortIDInterpreter shortIDTime;
-		RegionInterpreter regionTime;
 		Map.Entry<String, LinkedList<String>> filteredStringEntry;
 		Map.Entry<String, LinkedList<Integer>> filteredIntegerEntry;
 		Map.Entry<String, HashMap<String,LinkedList<String>>> filteredTripleStringEntry;
@@ -282,6 +311,13 @@ public class ClockTester {
 				 return true;
 				 
 			 }
+			 
+			 //Logic
+			 //Go through regions first,
+			 //See if any of the subregion-city maps contains the city field
+			 //Return the region-entry, containing the subregion-city mapping that contains the field
+			 //Then filter the subregion-city mapping such that the subregion-city entry that contains the field is the only entry returned
+			 //Obtain the parameters for the timezone by referencing the fields found from this filtering procedure 
 			 
 			 filteredTripleStringEntry = TimeZoneCollection.getRegionSubCityPairings().entrySet().stream()
 					 .filter(regionKey -> regionKey.getValue().entrySet().stream()

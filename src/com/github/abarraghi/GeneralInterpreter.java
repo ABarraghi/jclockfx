@@ -8,7 +8,14 @@ import java.util.Date;
 
 public abstract class GeneralInterpreter {
 	
-	protected final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss");
+	public enum Mode {
+		DIGITAL,
+		ANALOG
+	}
+	
+	protected Mode currentMode = Mode.DIGITAL; //Mode is set to digital by default 
+	
+	protected DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss");
 	
 	public String getTime() {
 		
@@ -25,12 +32,28 @@ public abstract class GeneralInterpreter {
 	
 	public String formatTime(String timeString) {
 		
+		if(currentMode == Mode.DIGITAL) 
+			timeFormatter = DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss");
+		
+		else if(currentMode == Mode.ANALOG) 
+			timeFormatter = DateTimeFormatter.ofPattern("EEE, d MMM yyyy h:mm:ss a");
+		
+		
 		ZoneId zoneId = ZoneId.of(timeString);
 		
 		LocalDateTime date = LocalDateTime.now(zoneId);
 		
-		return date.format(TIME_FORMATTER);
+		return date.format(timeFormatter);
 		
+	}
+	
+	//Accessors and Mutators for the Mode enum variable
+	public void setMode(Mode mode) {
+		currentMode = mode;
+	}
+	
+	public Mode getMode() {
+		return currentMode;
 	}
 
 }
