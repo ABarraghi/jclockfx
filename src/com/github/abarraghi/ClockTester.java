@@ -292,7 +292,13 @@ public class ClockTester {
 			 if(filteredTripleStringEntry != null) {
 				 
 				 region = filteredTripleStringEntry.getKey();
-				 subRegion = filteredTripleStringEntry.getValue().toString();
+				 subRegion = filteredTripleStringEntry.getValue().entrySet().stream()
+				 .filter(subRegionKey -> subRegionKey.getValue().contains(field))
+				 .findFirst()
+				 .orElse(null)
+				 .getKey();
+				 
+				 
 				 city = field;
 				 
 				 regionTime = new RegionInterpreter(region,subRegion,city);
@@ -306,6 +312,9 @@ public class ClockTester {
 			  
 			 
 		 }
+		 
+		 System.out.println("Entered field does not exist!");
+		 System.out.println("");
 		 
 		 return false;
 		
