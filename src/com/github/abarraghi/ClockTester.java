@@ -6,8 +6,8 @@ import java.time.*;
 
 public class ClockTester {
 	
-	static ShortIDInterpreter shortIDTime;
-	static RegionInterpreter regionTime;
+	static ShortIDInterpreter shortIDTime = new ShortIDInterpreter();
+	static RegionInterpreter regionTime = new RegionInterpreter();
 	
 	static enum Mode {
 		DIGITAL,
@@ -21,7 +21,7 @@ public class ClockTester {
 		
 		String[] testInput = {
 				"Asia/Manila", 
-				"Etc/UCT", //Needs to be added to the systemShortID map 
+				"Etc/UCT", 
 				"Asia/Lordistan",
 				"Etc/LLT",
 				"Cuba",
@@ -47,7 +47,7 @@ public class ClockTester {
 			System.out.println("JClockCLI Test 1 - Iteration: " + (i+1) + ", input string: " + currString);
 			matchTimeOnId(currString, Mode.DIGITAL);
 			String field = currString.split("/")[currString.split("/").length - 1];
-			matchTimeOnField(field);
+			matchTimeOnField(field, Mode.DIGITAL);
 			
 			i++;
 		}
@@ -62,12 +62,19 @@ public class ClockTester {
 			System.out.println("JClockCLI Test 1 - Iteration: " + i+1 + ", input string: " + currString);
 			matchTimeOnId(currString, Mode.ANALOG);
 			String field = currString.split("/")[currString.split("/").length - 1];
-			matchTimeOnField(field);
+			matchTimeOnField(field, Mode.ANALOG);
 			
 			i++;
 		}
 		
 	}
+	
+	/**
+	 * Finds an appropriate String TimeZone representation, based on the TimeZoneId entered
+	 * @param field terminating String of the TimeZoneId
+	 * @param mode Digital or Analog mode 
+	 * @return a "toString" of the TimeZone from its Id
+	 */
 	
 	public static boolean matchTimeOnId(String Id, Mode mode) {
 		
@@ -80,11 +87,12 @@ public class ClockTester {
 				
 				regionTime = new RegionInterpreter(timeParams[0]);
 				
-				if(mode == Mode.DIGITAL)
+				if(mode == Mode.DIGITAL) 
 					regionTime.setMode(GeneralInterpreter.Mode.DIGITAL);
-				else if(mode == Mode.ANALOG)
+				
+				else if(mode == Mode.ANALOG) 
 					regionTime.setMode(GeneralInterpreter.Mode.ANALOG);
-
+				
 				System.out.println(regionTime.toString());
 				System.out.println(regionTime.getTime());
 				System.out.println("");
@@ -95,6 +103,13 @@ public class ClockTester {
 			else if(TimeZoneCollection.getAvailableShortIDs().contains(timeParams[0])) {
 				
 				shortIDTime = new ShortIDInterpreter(timeParams[0]);
+				
+				if(mode == Mode.DIGITAL) 
+					shortIDTime.setMode(GeneralInterpreter.Mode.DIGITAL);
+				
+				else if(mode == Mode.ANALOG) 
+					shortIDTime.setMode(GeneralInterpreter.Mode.ANALOG);
+				
 				System.out.print(shortIDTime.toString());
 				System.out.print(shortIDTime.getTime());
 				System.out.println("");
@@ -116,6 +131,13 @@ public class ClockTester {
 					if(TimeZoneCollection.getRegionCityPairings().get(timeParams[0]).contains(timeParams[1])) {
 						
 						regionTime = new RegionInterpreter(timeParams[0],timeParams[1]);
+						
+						if(mode == Mode.DIGITAL) 
+							regionTime.setMode(GeneralInterpreter.Mode.DIGITAL);
+						
+						else if(mode == Mode.ANALOG) 
+							regionTime.setMode(GeneralInterpreter.Mode.ANALOG);
+						
 						System.out.println(regionTime.toString());
 						System.out.println(regionTime.getTime());
 						System.out.println("");
@@ -138,6 +160,13 @@ public class ClockTester {
 					if(TimeZoneCollection.getSystemShortPairings().get(timeParams[0]).contains(timeParams[1])) {
 						
 						shortIDTime = new ShortIDInterpreter(timeParams[0],timeParams[1]);
+						
+						if(mode == Mode.DIGITAL) 
+							shortIDTime.setMode(GeneralInterpreter.Mode.DIGITAL);
+						
+						else if(mode == Mode.ANALOG) 
+							shortIDTime.setMode(GeneralInterpreter.Mode.ANALOG);
+						
 						System.out.println(shortIDTime.toString());
 						System.out.println(shortIDTime.getTime());
 						System.out.println("");
@@ -171,6 +200,13 @@ public class ClockTester {
 					if(TimeZoneCollection.getRegionSubCityPairings().get(timeParams[0]).get(timeParams[1]).contains(timeParams[2])) {
 						
 						regionTime = new RegionInterpreter(timeParams[0],timeParams[1],timeParams[2]);
+						
+						if(mode == Mode.DIGITAL) 
+							regionTime.setMode(GeneralInterpreter.Mode.DIGITAL);
+						
+						else if(mode == Mode.ANALOG) 
+							regionTime.setMode(GeneralInterpreter.Mode.ANALOG);
+						
 						System.out.println(regionTime.toString());
 						System.out.println(regionTime.getTime());
 						System.out.println("");
@@ -217,7 +253,14 @@ public class ClockTester {
 		
 	}
 	
-	public static boolean matchTimeOnField(String field) {
+	/**
+	 * Finds an appropriate String TimeZone representation, based on the parameter entered
+	 * @param field terminating String of the TimeZoneId 
+	 * @param mode Digital or Analog mode
+	 * @return a "toString" of the TimeZone from its field
+	 */
+	
+	public static boolean matchTimeOnField(String field, Mode mode) {
 		
 		Map.Entry<String, LinkedList<String>> filteredStringEntry;
 		Map.Entry<String, LinkedList<Integer>> filteredIntegerEntry;
@@ -226,15 +269,18 @@ public class ClockTester {
 		String region, subRegion, city, shortId, systemName;
 		int gmtOffset = TimeZoneCollection.offsetOf(field);
 		
-		
-		//TODO insert logic for set-field comparisons 
-		
-		
 		 if (TimeZoneCollection.getAvailableRegions().contains(field)) {
 			 
 			 region = field;
 			 
 			 regionTime = new RegionInterpreter(region);
+			 
+			 if(mode == Mode.DIGITAL) 
+					regionTime.setMode(GeneralInterpreter.Mode.DIGITAL);
+				
+			else if(mode == Mode.ANALOG) 
+				regionTime.setMode(GeneralInterpreter.Mode.ANALOG);
+			 
 			 System.out.println(regionTime.toString());
 			 System.out.println(regionTime.getTime());
 			 System.out.println("");
@@ -247,6 +293,13 @@ public class ClockTester {
 			 shortId = field;
 			 
 			 shortIDTime = new ShortIDInterpreter(shortId);
+			 
+			 if(mode == Mode.DIGITAL) 
+					shortIDTime.setMode(GeneralInterpreter.Mode.DIGITAL);
+				
+			else if(mode == Mode.ANALOG) 
+				shortIDTime.setMode(GeneralInterpreter.Mode.ANALOG);
+			 
 			 System.out.println(shortIDTime.toString());
 			 System.out.println(shortIDTime.getTime());
 			 System.out.println("");
@@ -267,6 +320,13 @@ public class ClockTester {
 				 city = field;
 				 
 				 regionTime = new RegionInterpreter(region, city);
+				 
+				 if(mode == Mode.DIGITAL) 
+						regionTime.setMode(GeneralInterpreter.Mode.DIGITAL);
+					
+				else if(mode == Mode.ANALOG) 
+					regionTime.setMode(GeneralInterpreter.Mode.ANALOG);
+				 
 				 System.out.println(regionTime.toString());
 				 System.out.println(regionTime.getTime());
 				 System.out.println("");
@@ -286,6 +346,13 @@ public class ClockTester {
 				 shortId = field;
 						 
 				 shortIDTime = new ShortIDInterpreter(systemName, shortId);
+				 
+				 if(mode == Mode.DIGITAL)
+					 shortIDTime.setMode(GeneralInterpreter.Mode.DIGITAL);
+				 
+				 else if(mode == Mode.ANALOG)
+					 shortIDTime.setMode(GeneralInterpreter.Mode.ANALOG);
+				 
 				 System.out.println(shortIDTime.toString());
 				 System.out.println(shortIDTime.getTime());
 				 System.out.println("");
@@ -304,6 +371,13 @@ public class ClockTester {
 				 shortId = filteredIntegerEntry.getKey();
 				 
 				 shortIDTime = new ShortIDInterpreter(shortId, gmtOffset);
+				 
+				 if(mode == Mode.DIGITAL)
+					 shortIDTime.setMode(GeneralInterpreter.Mode.DIGITAL);
+				 
+				 else if(mode == Mode.ANALOG)
+					 shortIDTime.setMode(GeneralInterpreter.Mode.ANALOG);
+				 
 				 System.out.println(shortIDTime.toString());
 				 System.out.println(shortIDTime.getTime());
 				 System.out.println("");
@@ -338,6 +412,13 @@ public class ClockTester {
 				 city = field;
 				 
 				 regionTime = new RegionInterpreter(region,subRegion,city);
+				 
+				 if(mode == Mode.DIGITAL) 
+						regionTime.setMode(GeneralInterpreter.Mode.DIGITAL);
+					
+				else if(mode == Mode.ANALOG) 
+					regionTime.setMode(GeneralInterpreter.Mode.ANALOG);
+				 
 				 System.out.println(regionTime.toString());
 				 System.out.println(regionTime.getTime());
 				 System.out.println("");
