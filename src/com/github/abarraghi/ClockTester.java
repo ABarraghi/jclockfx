@@ -1,6 +1,7 @@
 package com.github.abarraghi;
 
 import java.util.*;
+import java.util.concurrent.*;
 import java.io.*;
 import java.time.*;
 
@@ -37,35 +38,48 @@ public class ClockTester {
 		
 		Set<String> availableIds = ZoneId.getAvailableZoneIds();
 		
-		String currString = " ";
-		int i = 0;
+//		final ScheduledExecutorService updatingClock = Executors.newSingleThreadScheduledExecutor();
+//		updatingClock.scheduleAtFixedRate(ClockTester::matchTimeOnField("EST",Mode.DIGITAL), 0, 1, TimeUnit.SECONDS);
 		
-		System.out.println("Time Mode set to Digital \n");
-		
-		while(!currString.equals("X")) {
-			currString = testInput[i];
-			System.out.println("JClockCLI Test 1 - Iteration: " + (i+1) + ", input string: " + currString);
-			matchTimeOnId(currString, Mode.DIGITAL);
-			String field = currString.split("/")[currString.split("/").length - 1];
-			matchTimeOnField(field, Mode.DIGITAL);
-			
-			i++;
+		while(true) {
+			matchTimeOnId("WET", Mode.DIGITAL);
+			try {
+				Thread.sleep(1000);
+			}
+			catch(Exception e) {}
 		}
 		
-		currString = " ";
-		i = 0;
 		
-		System.out.println("Time Mode set to Analog \n");
+//		String currString = " ";
+//		int i = 0;
+//		
+//		System.out.println("Time Mode set to Digital \n");
+//		
+//		while(!currString.equals("X")) {
+//			currString = testInput[i];
+//			System.out.println("JClockCLI Test 1 - Iteration: " + (i+1) + ", input string: " + currString);
+//			matchTimeOnId(currString, Mode.DIGITAL);
+//			String field = currString.split("/")[currString.split("/").length - 1];
+//			matchTimeOnField(field, Mode.DIGITAL);
+//			
+//			i++;
+//		}
+//		
+//		currString = " ";
+//		i = 0;
+//		
+//		System.out.println("Time Mode set to Analog \n");
+//		
+//		while(!currString.equals("X")) {
+//			currString = testInput[i];
+//			System.out.println("JClockCLI Test 1 - Iteration: " + i+1 + ", input string: " + currString);
+//			matchTimeOnId(currString, Mode.ANALOG);
+//			String field = currString.split("/")[currString.split("/").length - 1];
+//			matchTimeOnField(field, Mode.ANALOG);
+//			
+//			i++;
+//		}
 		
-		while(!currString.equals("X")) {
-			currString = testInput[i];
-			System.out.println("JClockCLI Test 1 - Iteration: " + i+1 + ", input string: " + currString);
-			matchTimeOnId(currString, Mode.ANALOG);
-			String field = currString.split("/")[currString.split("/").length - 1];
-			matchTimeOnField(field, Mode.ANALOG);
-			
-			i++;
-		}
 		
 	}
 	
@@ -110,8 +124,8 @@ public class ClockTester {
 				else if(mode == Mode.ANALOG) 
 					shortIDTime.setMode(GeneralInterpreter.Mode.ANALOG);
 				
-				System.out.print(shortIDTime.toString());
-				System.out.print(shortIDTime.getTime());
+				System.out.println(shortIDTime.toString());
+				System.out.println(shortIDTime.getTime());
 				System.out.println("");
 				return true;
 				
