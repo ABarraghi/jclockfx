@@ -36,12 +36,12 @@ public class ShortIDInterpreter extends GeneralInterpreter {
 	//Assuming we don't use default constructor
 	public String toString() {
 		if(systemName.equals("")&&gmtOffset==0) {
-			return "Short ID: " + shortID;
+			return shortID;
 		}
 		else if(gmtOffset==0) {
-			return "System Name: " + systemName + ", Short ID: " + shortID;
+			return systemName + "/" + shortID;
 		}
-		return "Short ID: " + shortID + ", GMT Offset: " + gmtOffset;
+		return shortID + "/" + gmtOffset;
 	}
 	
 	

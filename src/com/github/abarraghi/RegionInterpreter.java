@@ -35,11 +35,11 @@ public class RegionInterpreter extends GeneralInterpreter {
 	//Assuming we don't use default constructor
 	public String toString() {
 		if(cityName.equals("")) {
-			return "Region Name: " + regionName;
+			return regionName;
 		}
 		else if(subregionName.equals("")) {
-			return "Region Name: " + regionName + ", City Name: " + cityName;
+			return regionName + "/" + cityName;
 		}
-		return "Region Name: " + regionName + ", Sub-Region Name: " + subregionName + ", City Name: " + cityName;
+		return regionName + "/" + subregionName + "/" + cityName;
 	}
 }
