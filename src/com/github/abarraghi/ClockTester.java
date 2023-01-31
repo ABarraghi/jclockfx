@@ -2,7 +2,11 @@ package com.github.abarraghi;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.stream.Stream;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.*;
 
 public class ClockTester {
@@ -38,16 +42,20 @@ public class ClockTester {
 		
 		Set<String> availableIds = ZoneId.getAvailableZoneIds();
 		
+		regionTime = new RegionInterpreter(testInput[0]);
+		writeClock(regionTime);
+		readClock("./clocks.txt");
+		
 //		final ScheduledExecutorService updatingClock = Executors.newSingleThreadScheduledExecutor();
 //		updatingClock.scheduleAtFixedRate(ClockTester::matchTimeOnField("EST",Mode.DIGITAL), 0, 1, TimeUnit.SECONDS);
 		
-		while(true) {
-			matchTimeOnId("WET", Mode.DIGITAL);
-			try {
-				Thread.sleep(1000);
-			}
-			catch(Exception e) {}
-		}
+//		while(true) {
+//			matchTimeOnId("WET", Mode.DIGITAL);
+//			try {
+//				Thread.sleep(1000);
+//			}
+//			catch(Exception e) {}
+//		}
 		
 		
 //		String currString = " ";
@@ -448,6 +456,34 @@ public class ClockTester {
 		 System.out.println("");
 		 
 		 return false;
+		
+	}
+	
+	
+	//Assuming we want a digital mode
+	static void readClock(String filePath) {
+		try (Stream<String> clockStream = Files.lines(Paths.get(filePath)))  {
+			
+			clockStream.forEach((clock) -> {
+				matchTimeOnId(clock,Mode.DIGITAL);
+			});
+			
+		}
+		catch(Exception e) {
+			System.err.println("An error occured when reading from the file!");
+		}
+		
+	}
+	
+	//Assuming only one clock is written to file
+	static void writeClock(GeneralInterpreter clock) {
+		try {
+			Files.write(Paths.get("./clocks.txt"), clock.toString().getBytes());
+			
+		}
+		catch(Exception e) {
+			System.err.println("An error occured when writing to the file!");
+		}
 		
 	}
 }
