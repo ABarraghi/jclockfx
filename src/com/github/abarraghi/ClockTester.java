@@ -7,6 +7,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.*;
 
 public class ClockTester {
@@ -40,10 +41,34 @@ public class ClockTester {
 				"X"
 		};
 		
+		String[] testRegions = {
+			"Asia/Manila",
+			"Cuba",
+			"Pacific/Port_Moresby",
+			"America/North_Dakota/Beulah",
+			"Europe/Vienna"
+		};
+		
+		
+		
+		
 		Set<String> availableIds = ZoneId.getAvailableZoneIds();
 		
-		regionTime = new RegionInterpreter(testInput[0]);
-		writeClock(regionTime);
+		
+		try {
+			Files.write(Paths.get("./clocks.txt"), "".getBytes());
+		}
+		catch(Exception e) { 
+			System.err.println("Could not flush contents of file!"); 
+		}
+		
+		
+		for(int i = 0; i < testRegions.length; i++ ) {
+			
+			regionTime = new RegionInterpreter(testRegions[i]);
+			writeClock(regionTime);
+		}
+		
 		readClock("./clocks.txt");
 		
 //		final ScheduledExecutorService updatingClock = Executors.newSingleThreadScheduledExecutor();
@@ -478,7 +503,7 @@ public class ClockTester {
 	//Assuming only one clock is written to file
 	static void writeClock(GeneralInterpreter clock) {
 		try {
-			Files.write(Paths.get("./clocks.txt"), clock.toString().getBytes());
+			Files.write(Paths.get("./clocks.txt"), (clock.toString() + "\n").getBytes(), StandardOpenOption.APPEND);
 			
 		}
 		catch(Exception e) {
