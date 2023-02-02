@@ -60,9 +60,16 @@ public class ClockTester {
 			System.err.println("Could not flush contents of file!"); 
 		}
 		
+		for(int i = 0;i<testRegions.length;i++) {
+			try {
+				clocks.add(matchTimeOnId(testRegions[i], Mode.DIGITAL));
+				writeClock(clocks.get(i));
+			}
+			catch(Exception e) {
+				continue;
+			}
+		}
 		
-		clocks.add(matchTimeOnId(testInput[0], Mode.DIGITAL));
-		writeClock(clocks.get(0));
 		
 		readClock("./clocks.txt");
 		
