@@ -6,8 +6,6 @@ import java.time.*;
 
 public class RegionInterpreter extends GeneralInterpreter {
 	
-	String regionName = "", subregionName = "", cityName = "";
-	
 	public RegionInterpreter() {}
 	
 	public RegionInterpreter(String regionName) {

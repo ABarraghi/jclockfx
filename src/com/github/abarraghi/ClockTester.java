@@ -49,9 +49,7 @@ public class ClockTester {
 			"Europe/Vienna"
 		};
 		
-		
-		
-		
+		ArrayList<GeneralInterpreter> clocks = new ArrayList<>();
 		Set<String> availableIds = ZoneId.getAvailableZoneIds();
 		
 		
@@ -63,11 +61,8 @@ public class ClockTester {
 		}
 		
 		
-		for(int i = 0; i < testRegions.length; i++ ) {
-			
-			regionTime = new RegionInterpreter(testRegions[i]);
-			writeClock(regionTime);
-		}
+		clocks.add(matchTimeOnId(testInput[0], Mode.DIGITAL));
+		writeClock(clocks.get(0));
 		
 		readClock("./clocks.txt");
 		
@@ -123,7 +118,7 @@ public class ClockTester {
 	 * @return a "toString" of the TimeZone from its Id
 	 */
 	
-	public static boolean matchTimeOnId(String Id, Mode mode) {
+	public static GeneralInterpreter matchTimeOnId(String Id, Mode mode) {
 		
 		String[] timeParams = Id.split("/");
 		
@@ -140,10 +135,10 @@ public class ClockTester {
 				else if(mode == Mode.ANALOG) 
 					regionTime.setMode(GeneralInterpreter.Mode.ANALOG);
 				
-				System.out.println(regionTime.toString());
-				System.out.println(regionTime.getTime());
-				System.out.println("");
-				return true;
+//				System.out.println(regionTime.toString());
+//				System.out.println(regionTime.getTime());
+//				System.out.println("");
+				return regionTime;
 				
 			}
 			
@@ -157,10 +152,10 @@ public class ClockTester {
 				else if(mode == Mode.ANALOG) 
 					shortIDTime.setMode(GeneralInterpreter.Mode.ANALOG);
 				
-				System.out.println(shortIDTime.toString());
-				System.out.println(shortIDTime.getTime());
-				System.out.println("");
-				return true;
+//				System.out.println(shortIDTime.toString());
+//				System.out.println(shortIDTime.getTime());
+//				System.out.println("");
+				return shortIDTime;
 				
 			}
 			
@@ -168,7 +163,7 @@ public class ClockTester {
 				
 				System.out.println("Entered field does not exist!");
 				System.out.println("");
-				return false;
+				return null;
 			}
 		
 		case 2:
@@ -185,10 +180,10 @@ public class ClockTester {
 						else if(mode == Mode.ANALOG) 
 							regionTime.setMode(GeneralInterpreter.Mode.ANALOG);
 						
-						System.out.println(regionTime.toString());
-						System.out.println(regionTime.getTime());
-						System.out.println("");
-						return true;
+//						System.out.println(regionTime.toString());
+//						System.out.println(regionTime.getTime());
+//						System.out.println("");
+						return regionTime;
 						
 					}
 					
@@ -196,7 +191,7 @@ public class ClockTester {
 						
 						System.out.println("Entered city does not exist for this region!");
 						System.out.println("");
-						return false;
+						return null;
 						
 					}
 				
@@ -214,10 +209,10 @@ public class ClockTester {
 						else if(mode == Mode.ANALOG) 
 							shortIDTime.setMode(GeneralInterpreter.Mode.ANALOG);
 						
-						System.out.println(shortIDTime.toString());
-						System.out.println(shortIDTime.getTime());
-						System.out.println("");
-						return true;
+//						System.out.println(shortIDTime.toString());
+//						System.out.println(shortIDTime.getTime());
+//						System.out.println("");
+						return shortIDTime;
 						
 					}
 					
@@ -225,7 +220,7 @@ public class ClockTester {
 						
 						System.out.println("Entered short id does not exist for this system!");
 						System.out.println("");
-						return false;
+						return null;
 						
 					}
 				
@@ -235,7 +230,7 @@ public class ClockTester {
 				
 				System.out.println("Entered field does not exist!");
 				System.out.println("");
-				return false;
+				return null;
 			}
 			
 		case 3:
@@ -254,10 +249,10 @@ public class ClockTester {
 						else if(mode == Mode.ANALOG) 
 							regionTime.setMode(GeneralInterpreter.Mode.ANALOG);
 						
-						System.out.println(regionTime.toString());
-						System.out.println(regionTime.getTime());
-						System.out.println("");
-						return true;
+//						System.out.println(regionTime.toString());
+//						System.out.println(regionTime.getTime());
+//						System.out.println("");
+						return regionTime;
 						
 					}
 					
@@ -265,7 +260,7 @@ public class ClockTester {
 						
 						System.out.println("Entered city does not exist!");
 						System.out.println("");
-						return false;
+						return null;
 						
 					}
 					
@@ -275,7 +270,7 @@ public class ClockTester {
 					
 					System.out.println("Entered sub region does not exist!");
 					System.out.println("");
-					return false;
+					return null;
 					
 				}
 				
@@ -285,7 +280,7 @@ public class ClockTester {
 				
 				System.out.println("Entered region does not exist!");
 				System.out.println("");
-				return false;
+				return null;
 				
 			}
 		
@@ -293,7 +288,7 @@ public class ClockTester {
 			
 			System.out.println("Enter a time zone id that contains 1 to 3 fields!");
 			System.out.println("");
-			return false;
+			return null;
 	}
 		
 		
@@ -307,7 +302,7 @@ public class ClockTester {
 	 * @return a "toString" of the TimeZone from its field
 	 */
 	
-	public static boolean matchTimeOnField(String field, Mode mode) {
+	public static GeneralInterpreter matchTimeOnField(String field, Mode mode) {
 		
 		Map.Entry<String, LinkedList<String>> filteredStringEntry;
 		Map.Entry<String, LinkedList<Integer>> filteredIntegerEntry;
@@ -328,11 +323,11 @@ public class ClockTester {
 			else if(mode == Mode.ANALOG) 
 				regionTime.setMode(GeneralInterpreter.Mode.ANALOG);
 			 
-			 System.out.println(regionTime.toString());
-			 System.out.println(regionTime.getTime());
-			 System.out.println("");
+//			 System.out.println(regionTime.toString());
+//			 System.out.println(regionTime.getTime());
+//			 System.out.println("");
 			 
-			 return true;
+			 return regionTime;
 			 
 		 }
 		 else if(TimeZoneCollection.getAvailableShortIDs().contains(field)) {
@@ -347,11 +342,11 @@ public class ClockTester {
 			else if(mode == Mode.ANALOG) 
 				shortIDTime.setMode(GeneralInterpreter.Mode.ANALOG);
 			 
-			 System.out.println(shortIDTime.toString());
-			 System.out.println(shortIDTime.getTime());
-			 System.out.println("");
+//			 System.out.println(shortIDTime.toString());
+//			 System.out.println(shortIDTime.getTime());
+//			 System.out.println("");
 			 
-			 return true;
+			 return shortIDTime;
 			 
 		 }
 		 else {
@@ -374,11 +369,11 @@ public class ClockTester {
 				else if(mode == Mode.ANALOG) 
 					regionTime.setMode(GeneralInterpreter.Mode.ANALOG);
 				 
-				 System.out.println(regionTime.toString());
-				 System.out.println(regionTime.getTime());
-				 System.out.println("");
+//				 System.out.println(regionTime.toString());
+//				 System.out.println(regionTime.getTime());
+//				 System.out.println("");
 				 
-				 return true;
+				 return regionTime;
 				 
 			 }
 			 
@@ -400,11 +395,11 @@ public class ClockTester {
 				 else if(mode == Mode.ANALOG)
 					 shortIDTime.setMode(GeneralInterpreter.Mode.ANALOG);
 				 
-				 System.out.println(shortIDTime.toString());
-				 System.out.println(shortIDTime.getTime());
-				 System.out.println("");
+//				 System.out.println(shortIDTime.toString());
+//				 System.out.println(shortIDTime.getTime());
+//				 System.out.println("");
 						 
-				 return true;
+				 return shortIDTime;
 				 
 			 }
 			 
@@ -425,11 +420,11 @@ public class ClockTester {
 				 else if(mode == Mode.ANALOG)
 					 shortIDTime.setMode(GeneralInterpreter.Mode.ANALOG);
 				 
-				 System.out.println(shortIDTime.toString());
-				 System.out.println(shortIDTime.getTime());
-				 System.out.println("");
+//				 System.out.println(shortIDTime.toString());
+//				 System.out.println(shortIDTime.getTime());
+//				 System.out.println("");
 						 
-				 return true;
+				 return shortIDTime;
 				 
 			 }
 			 
@@ -466,11 +461,11 @@ public class ClockTester {
 				else if(mode == Mode.ANALOG) 
 					regionTime.setMode(GeneralInterpreter.Mode.ANALOG);
 				 
-				 System.out.println(regionTime.toString());
-				 System.out.println(regionTime.getTime());
-				 System.out.println("");
+//				 System.out.println(regionTime.toString());
+//				 System.out.println(regionTime.getTime());
+//				 System.out.println("");
 				 
-				 return true;
+				 return regionTime;
 				
 			 }
 			  
@@ -480,7 +475,7 @@ public class ClockTester {
 		 System.out.println("Entered field does not exist!");
 		 System.out.println("");
 		 
-		 return false;
+		 return null;
 		
 	}
 	
@@ -490,7 +485,48 @@ public class ClockTester {
 		try (Stream<String> clockStream = Files.lines(Paths.get(filePath)))  {
 			
 			clockStream.forEach((clock) -> {
-				matchTimeOnId(clock,Mode.DIGITAL);
+				GeneralInterpreter currClock = matchTimeOnId(clock,Mode.DIGITAL);
+				if(currClock.regionName.equals("")) {
+					if(currClock.gmtOffset == 100) {
+						if(currClock.systemName.equals("")) {
+							shortIDTime = new ShortIDInterpreter(currClock.shortID);
+							 System.out.println(shortIDTime.toString());
+							 System.out.println(shortIDTime.getTime());
+							 System.out.println("");
+						}
+						else {
+							shortIDTime = new ShortIDInterpreter(currClock.systemName, currClock.shortID);
+							System.out.println(shortIDTime.toString());
+							System.out.println(shortIDTime.getTime());
+							System.out.println("");
+						}
+					}
+					else {
+						shortIDTime = new ShortIDInterpreter(currClock.shortID, currClock.gmtOffset);
+						System.out.println(shortIDTime.toString());
+						System.out.println(shortIDTime.getTime());
+						System.out.println("");
+					}
+				}
+				else {
+					if(currClock.cityName.equals("")) regionTime = new RegionInterpreter(currClock.regionName);
+					else {
+						if(currClock.subregionName.equals("")) {
+							regionTime = new RegionInterpreter(currClock.regionName,currClock.cityName);
+							System.out.println(regionTime.toString());
+							System.out.println(regionTime.getTime());
+							System.out.println("");
+						}
+						else {
+							regionTime = new RegionInterpreter(currClock.regionName, currClock.subregionName, currClock.cityName);
+							System.out.println(regionTime.toString());
+							System.out.println(regionTime.getTime());
+							System.out.println("");
+						}
+					}
+					
+				}
+				
 			});
 			
 		}
@@ -502,6 +538,7 @@ public class ClockTester {
 	
 	//Assuming only one clock is written to file
 	static void writeClock(GeneralInterpreter clock) {
+		
 		try {
 			Files.write(Paths.get("./clocks.txt"), (clock.toString() + "\n").getBytes(), StandardOpenOption.APPEND);
 			

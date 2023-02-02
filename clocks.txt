@@ -1,5 +1,1 @@
 Asia/Manila
-Cuba
-Pacific/Port_Moresby
-America/North_Dakota/Beulah
-Europe/Vienna

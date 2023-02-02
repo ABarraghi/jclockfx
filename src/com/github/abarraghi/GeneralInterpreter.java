@@ -8,6 +8,10 @@ import java.util.Date;
 
 public abstract class GeneralInterpreter {
 	
+	protected String currTime = "", cityName = "", regionName = "", subregionName = "";
+	protected String shortID = "", systemName = "";
+	protected int gmtOffset = 100;
+	
 	public enum Mode {
 		DIGITAL,
 		ANALOG

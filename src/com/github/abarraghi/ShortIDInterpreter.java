@@ -7,9 +7,6 @@ import java.time.ZoneId;
 
 public class ShortIDInterpreter extends GeneralInterpreter {
 	
-	String shortID = "", systemName = "";
-	int gmtOffset = 0;
-	
 	public ShortIDInterpreter() {}
 	
 	public ShortIDInterpreter(String shortID) {
